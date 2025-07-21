@@ -8,21 +8,58 @@ const LoginPage = ({login}) => {
     const [mode, setMode] = useState('login')
 
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
         if(mode === 'login'){
-            e.preventDefault();
-            console.log(username);
-            console.log(password);
-            console.log('login')
+            try{
+                const response = await fetch('backendPathForLogin', {
+                    method: 'POST',
+                    headers: {
+                        'Conent-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password})
+                });
+
+                const data = await response.json();
+
+                if (response.ok){
+                    setMessage('Success: ${data.message}');
+                } else {
+                    setMessage('Error: ${data.error || Signup Failed');
+                }
+            
+            } catch (err){
+                setMessage('Error: ${err.message}');
+            }
+
             login();
+
         }else {
-            e.preventDefault();
-            console.log(username);
-            console.log(password);
-            console.log('signup')
+            try{
+                const response = await fetch('backendPathForSignup', {
+                    method: 'POST',
+                    headers: {
+                        'Conent-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password})
+                });
+
+                const data = await response.json();
+
+                if (response.ok){
+                    setMessage('Success: ${data.message}');
+                } else {
+                    setMessage('Error: ${data.error || Signup Failed');
+                }
+            
+            } catch (err){
+                setMessage('Error: ${err.message}');
+            }
+            
             login();
         }
-    }
+    };
 
     return(
         <div className="modal-popup">
