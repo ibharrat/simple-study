@@ -5,15 +5,17 @@ const LoginPage = ({login}) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [mode, setMode] = useState('login')
+    const [mode, setMode] = useState('login');
+    const [message, setMessage] = useState('');
 
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        if(mode === 'login'){
+        const endpoint = mode === 'login' ? '/api/login' : '/api/signup'
+
             try{
-                const response = await fetch('backendPathForLogin', {
+                const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
                         'Conent-Type': 'application/json'
@@ -23,42 +25,19 @@ const LoginPage = ({login}) => {
 
                 const data = await response.json();
 
+                //find a spot to use message, message is currently not displayed
                 if (response.ok){
-                    setMessage('Success: ${data.message}');
+                    setMessage(`Success: ${data.message}`);
                 } else {
-                    setMessage('Error: ${data.error || Signup Failed');
+                    setMessage(`Error: ${data.error} || Signup Failed`);
                 }
             
             } catch (err){
-                setMessage('Error: ${err.message}');
+                setMessage(`Error: ${err.message}`);
             }
 
             login();
 
-        }else {
-            try{
-                const response = await fetch('backendPathForSignup', {
-                    method: 'POST',
-                    headers: {
-                        'Conent-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password})
-                });
-
-                const data = await response.json();
-
-                if (response.ok){
-                    setMessage('Success: ${data.message}');
-                } else {
-                    setMessage('Error: ${data.error || Signup Failed');
-                }
-            
-            } catch (err){
-                setMessage('Error: ${err.message}');
-            }
-            
-            login();
-        }
     };
 
     return(
