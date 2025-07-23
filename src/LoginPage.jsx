@@ -15,10 +15,10 @@ const LoginPage = ({login}) => {
         const endpoint = mode === 'login' ? '/api/login' : '/api/signup'
 
             try{
-                const response = await fetch(endpoint, {
+                const response = await fetch('http://54.196.116.98:5000' + endpoint, {
                     method: 'POST',
                     headers: {
-                        'Conent-Type': 'application/json'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ username, password})
                 });
