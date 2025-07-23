@@ -15,7 +15,7 @@ const LoginPage = ({login}) => {
         const endpoint = mode === 'login' ? '/api/login' : '/api/signup'
 
             try{
-                const response = await fetch('http://54.196.116.98:5000' + endpoint, {
+                const response = await fetch('https://d3dfs9aj597snm.cloudfront.net' + endpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
